@@ -11,4 +11,5 @@
     <string name="language">Language</string>
     <string name="english">English</string>
     <string name="indonesia">Bahasa Indonesia</string>
+    <string name="failure">Something Went Wrong</string>
 </resources>
