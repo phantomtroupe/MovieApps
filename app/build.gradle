@@ -16,6 +16,8 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        buildConfigField "String", "BASE_URL", "\"https://api.themoviedb.org/3/\""
+        buildConfigField "String", "API_KEY", "\"e900de97202dc9b0cba5a26b9dfe2e5b\""
     }
     buildTypes {
         release {
@@ -51,4 +53,6 @@ dependencies {
     // Retrofit & GSON
     implementation 'com.squareup.retrofit2:retrofit:2.7.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.7.1'
+
+    implementation 'com.squareup.okhttp3:logging-interceptor:4.3.1'
 }
