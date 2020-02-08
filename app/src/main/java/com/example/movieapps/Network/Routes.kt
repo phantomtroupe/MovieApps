@@ -10,6 +10,6 @@ interface Routes {
     @GET("discover/movie/")
     fun getMovies() : Call<MovieResponse>
 
-    @GET("dicover/tv")
+    @GET("discover/tv")
     fun getTvShow() : Call<TvShowResponse>
 }

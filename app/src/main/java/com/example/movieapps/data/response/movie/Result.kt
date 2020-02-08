@@ -9,9 +9,9 @@ data class Result(
     @SerializedName("backdrop_path")
     var backdropPath: String,
     @SerializedName("genre_ids")
-    var genreIds: List<Int>,
+    var genreIds: List<String>,
     @SerializedName("id")
-    var id: Int,
+    var id: String,
     @SerializedName("original_language")
     var originalLanguage: String,
     @SerializedName("original_title")
@@ -29,7 +29,7 @@ data class Result(
     @SerializedName("video")
     var video: Boolean,
     @SerializedName("vote_average")
-    var voteAverage: Int,
+    var voteAverage: String,
     @SerializedName("vote_count")
-    var voteCount: Int
+    var voteCount: String
 )
