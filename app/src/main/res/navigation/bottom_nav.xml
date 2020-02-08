@@ -8,7 +8,11 @@
         android:id="@+id/movie_fragment"
         android:name="com.example.movieapps.ui.movie.MovieFragment"
         android:label="fragment_movie"
-        tools:layout="@layout/fragment_movie" />
+        tools:layout="@layout/fragment_movie" >
+        <action
+            android:id="@+id/action_movie_fragment_to_detailMovieActivity"
+            app:destination="@id/detailMovieActivity" />
+    </fragment>
     <fragment
         android:id="@+id/tvshow_fragment"
         android:name="com.example.movieapps.ui.tv_show.TvShowFragment"
@@ -19,4 +23,8 @@
         android:name="com.example.movieapps.ui.favorite.FavoriteFragment"
         android:label="fragment_favorite"
         tools:layout="@layout/fragment_favorite" />
+    <activity
+        android:id="@+id/detailMovieActivity"
+        android:name="com.example.movieapps.ui.movie.DetailMovieActivity"
+        android:label="DetailMovieActivity" />
 </navigation>
