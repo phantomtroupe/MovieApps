@@ -1,10 +1,9 @@
-package com.example.movieapps.ui
+package com.example.movieapps.ui.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapps.BuildConfig
@@ -14,7 +13,11 @@ import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
 class MovieAdapter(private val context:Context, private val movieResponse:MovieResponse) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieViewHolder {
-        return MovieViewHolder(LayoutInflater.from(parent.context).inflate(R.layout.movie_item_layout,parent,false))
+        return MovieViewHolder(
+            LayoutInflater.from(
+                parent.context
+            ).inflate(R.layout.movie_item_layout, parent, false)
+        )
     }
 
     override fun getItemCount(): Int {
@@ -30,9 +33,9 @@ class MovieAdapter(private val context:Context, private val movieResponse:MovieR
 
         holder.tv_movie_title.text = movieResponse.results[position].title
         holder.tv_rating.text = movieResponse.results[position].voteAverage
-        holder.tv_popularity.text = movieResponse.results[position].popularity.toString()
+        holder.tv_popularity.text = "Popularity : ${movieResponse.results[position].popularity}"
         holder.btn_see_more.setOnClickListener {view->
-            view.findNavController().navigate(R.id.action_movie_fragment_to_detailMovieActivity)
+//            view.findNavController().navigate(R.id.action_movie_fragment_to_detailMovieActivity)
         }
     }
 
