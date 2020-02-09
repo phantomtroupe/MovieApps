@@ -1,15 +1,18 @@
 package com.example.movieapps.data.response.tv_show
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Result(
     @SerializedName("backdrop_path")
     var backdropPath: String,
     @SerializedName("first_air_date")
     var firstAirDate: String,
     @SerializedName("genre_ids")
-    var genreIds: List<Int>,
+    var genreIds: List<String>,
     @SerializedName("id")
     var id: Int,
     @SerializedName("name")
@@ -30,4 +33,4 @@ data class Result(
     var voteAverage: Double,
     @SerializedName("vote_count")
     var voteCount: Int
-)
+) : Parcelable

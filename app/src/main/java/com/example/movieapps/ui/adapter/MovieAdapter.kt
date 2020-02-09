@@ -1,6 +1,7 @@
 package com.example.movieapps.ui.adapter
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,6 +10,7 @@ import com.bumptech.glide.Glide
 import com.example.movieapps.BuildConfig
 import com.example.movieapps.R
 import com.example.movieapps.data.response.movie.MovieResponse
+import com.example.movieapps.ui.movie.DetailMovieActivity
 import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
 class MovieAdapter(private val context:Context, private val movieResponse:MovieResponse) : RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
@@ -35,7 +37,9 @@ class MovieAdapter(private val context:Context, private val movieResponse:MovieR
         holder.tv_rating.text = movieResponse.results[position].voteAverage
         holder.tv_popularity.text = "Popularity : ${movieResponse.results[position].popularity}"
         holder.btn_see_more.setOnClickListener {view->
-//            view.findNavController().navigate(R.id.action_movie_fragment_to_detailMovieActivity)
+            val intent = Intent(context,DetailMovieActivity::class.java)
+            intent.putExtra("movie_data",movieResponse.results[position])
+            context.startActivity(intent)
         }
     }
 

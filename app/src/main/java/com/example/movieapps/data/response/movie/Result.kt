@@ -1,8 +1,11 @@
 package com.example.movieapps.data.response.movie
 
 
+import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
+import kotlinx.android.parcel.Parcelize
 
+@Parcelize
 data class Result(
     @SerializedName("adult")
     var adult: Boolean,
@@ -32,4 +35,4 @@ data class Result(
     var voteAverage: String,
     @SerializedName("vote_count")
     var voteCount: String
-)
+) : Parcelable

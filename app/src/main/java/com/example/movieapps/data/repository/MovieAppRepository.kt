@@ -3,6 +3,8 @@ package com.example.movieapps.data.repository
 import androidx.lifecycle.MutableLiveData
 import com.example.movieapps.Network.NetworkListener
 import com.example.movieapps.Network.Routes
+import com.example.movieapps.data.response.genres.Genre
+import com.example.movieapps.data.response.genres.GenreResponse
 import com.example.movieapps.data.response.movie.MovieResponse
 import com.example.movieapps.data.response.tv_show.TvShowResponse
 import retrofit2.Call
@@ -12,6 +14,8 @@ import retrofit2.Response
 class MovieAppRepository(val routes: Routes) {
     val _movies = MutableLiveData<MovieResponse>()
     val _tvShows = MutableLiveData<TvShowResponse>()
+    val _genreMovie = MutableLiveData<GenreResponse>()
+    val _genreTvShow = MutableLiveData<GenreResponse>()
 
 
     fun getMovies(networkListener: NetworkListener?){
@@ -42,6 +46,42 @@ class MovieAppRepository(val routes: Routes) {
                 if(response.isSuccessful){
                     networkListener?.onSuccess(response.body()?.results.toString())
                     _tvShows.value = response.body()
+                }else{
+                    networkListener?.onFailure(response.errorBody().toString())
+                }
+            }
+
+        })
+    }
+
+    fun getMovieGenres(networkListener: NetworkListener?){
+        routes.getMovieGenre().enqueue(object : Callback<GenreResponse>{
+            override fun onFailure(call: Call<GenreResponse>, t: Throwable) {
+                networkListener?.onFailure(t.message.toString())
+            }
+
+            override fun onResponse(call: Call<GenreResponse>, response: Response<GenreResponse>) {
+                if(response.isSuccessful){
+                    networkListener?.onSuccess(response.body()?.genres.toString())
+                    _genreMovie.value = response.body()
+                }else{
+                    networkListener?.onFailure(response.errorBody().toString())
+                }
+            }
+
+        })
+    }
+
+    fun getTvShowGenres(networkListener: NetworkListener?){
+        routes.getTvShowGenre().enqueue(object : Callback<GenreResponse>{
+            override fun onFailure(call: Call<GenreResponse>, t: Throwable) {
+                networkListener?.onFailure(t.message.toString())
+            }
+
+            override fun onResponse(call: Call<GenreResponse>, response: Response<GenreResponse>) {
+                if(response.isSuccessful){
+                    networkListener?.onSuccess(response.body()?.genres.toString())
+                    _genreTvShow.value = response.body()
                 }else{
                     networkListener?.onFailure(response.errorBody().toString())
                 }
