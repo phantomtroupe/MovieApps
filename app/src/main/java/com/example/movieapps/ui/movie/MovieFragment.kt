@@ -52,7 +52,7 @@ class MovieFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshL
         super.onActivityCreated(savedInstanceState)
         Log.e("ActivityCreated","Ulala")
 
-        movieViewModel = ViewModelProvider(this,Injection.provideViewModelFractory())
+        movieViewModel = ViewModelProvider(this,Injection.provideViewModelFractory(this.context!!))
             .get(MovieViewModel::class.java)
         movieViewModel.networkListener = this
         initObserver()

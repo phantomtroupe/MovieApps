@@ -46,7 +46,7 @@ class DetailTvShowActivity : AppCompatActivity() {
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Detail Movie"
         genreTvShowViewModel = ViewModelProvider(this,
-            ViewModelFactory(Injection.provideRepository())
+            ViewModelFactory(Injection.provideRepository(this))
         )
             .get(GenreTvShowViewModel::class.java)
 
@@ -104,6 +104,7 @@ class DetailTvShowActivity : AppCompatActivity() {
             }
             return true
         }
+        FavoriteTvShowFragment.updateData()
         return super.onOptionsItemSelected(item)
     }
 }

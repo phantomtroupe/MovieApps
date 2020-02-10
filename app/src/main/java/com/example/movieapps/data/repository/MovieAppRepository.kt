@@ -1,21 +1,26 @@
 package com.example.movieapps.data.repository
 
+import android.content.Context
 import androidx.lifecycle.MutableLiveData
 import com.example.movieapps.Network.NetworkListener
 import com.example.movieapps.Network.Routes
+import com.example.movieapps.data.database.DatabaseHelper
 import com.example.movieapps.data.response.genres.Genre
 import com.example.movieapps.data.response.genres.GenreResponse
 import com.example.movieapps.data.response.movie.MovieResponse
+import com.example.movieapps.data.response.movie.Result
 import com.example.movieapps.data.response.tv_show.TvShowResponse
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class MovieAppRepository(val routes: Routes) {
+class MovieAppRepository(val routes: Routes, val context: Context) {
     val _movies = MutableLiveData<MovieResponse>()
     val _tvShows = MutableLiveData<TvShowResponse>()
     val _genreMovie = MutableLiveData<GenreResponse>()
     val _genreTvShow = MutableLiveData<GenreResponse>()
+    val _favMovie = MutableLiveData<Array<Result>>()
+    val _favTvShow = MutableLiveData<Array<com.example.movieapps.data.response.tv_show.Result>>()
 
 
     fun getMovies(networkListener: NetworkListener?){
@@ -88,5 +93,17 @@ class MovieAppRepository(val routes: Routes) {
             }
 
         })
+    }
+
+    fun getFavoriteMovie(){
+        val db = DatabaseHelper.createDb(context).favMovieDao()
+        val result = db.getFavMovie()
+        _favMovie.value = result
+    }
+
+    fun getFavoriteTvShow(){
+        val db = DatabaseHelper.createDb(context).favTvShowDao()
+        val result = db.getFavTvShow()
+        _favTvShow.value = result
     }
 }

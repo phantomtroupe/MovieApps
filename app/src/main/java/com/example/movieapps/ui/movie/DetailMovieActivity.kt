@@ -47,7 +47,7 @@ class DetailMovieActivity : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
         supportActionBar?.title = "Detail Movie"
-        genreMovieViewModel = ViewModelProvider(this,ViewModelFactory(Injection.provideRepository()))
+        genreMovieViewModel = ViewModelProvider(this,ViewModelFactory(Injection.provideRepository(this)))
             .get(GenreMovieViewModel::class.java)
 
 
@@ -104,6 +104,8 @@ class DetailMovieActivity : AppCompatActivity() {
                 menu.getItem(0).setIcon(R.drawable.ic_favorite)
                 Toast.makeText(this,"Added To Favorite",Toast.LENGTH_SHORT).show()
             }
+
+            FavoriteMovieFragment.updateData()
             return true
         }
         return super.onOptionsItemSelected(item)

@@ -15,7 +15,6 @@ data class Result(
     var backdropPath: String,
     @SerializedName("first_air_date")
     var firstAirDate: String,
-    @Ignore
     @SerializedName("genre_ids")
     var genreIds: ArrayList<String>,
     @SerializedName("id")
@@ -23,7 +22,6 @@ data class Result(
     @SerializedName("name")
     @PrimaryKey
     var name: String,
-    @Ignore
     @SerializedName("origin_country")
     var originCountry: ArrayList<String>,
     @SerializedName("original_language")

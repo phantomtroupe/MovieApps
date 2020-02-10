@@ -17,10 +17,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.movie_fragment){
+            supportActionBar?.elevation = 8f
             loadFragment("movie")
         }else if(item.itemId == R.id.tvshow_fragment){
+            supportActionBar?.elevation = 8f
             loadFragment("tv")
         }else if(item.itemId == R.id.favorite_fragment){
+            supportActionBar?.elevation = 0f
             loadFragment("favorite")
         }
         return true

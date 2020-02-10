@@ -15,7 +15,6 @@ data class Result(
     var adult: Boolean,
     @SerializedName("backdrop_path")
     var backdropPath: String,
-    @Ignore
     @SerializedName("genre_ids")
     var genreIds: ArrayList<String>,
     @SerializedName("id")

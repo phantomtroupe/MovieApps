@@ -48,7 +48,7 @@ class TvShowFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefresh
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        tvShowViewModel = ViewModelProvider(this, Injection.provideViewModelFractory())
+        tvShowViewModel = ViewModelProvider(this, Injection.provideViewModelFractory(this.context!!))
             .get(TvShowViewModel::class.java)
         tvShowViewModel.networkListener = this
         initObserver()
