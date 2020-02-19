@@ -5,10 +5,13 @@ import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.Ignore
 import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
+import com.example.movieapps.data.database.Converter
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "fav_tvshow")
+@Entity(tableName = "TvshowResult")
+@TypeConverters(Converter::class)
 @Parcelize
 data class Result(
     @SerializedName("backdrop_path")

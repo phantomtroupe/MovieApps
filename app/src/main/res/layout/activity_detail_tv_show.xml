@@ -53,15 +53,14 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
-                android:text="TextView"
                 android:textColor="@color/titleTextColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/tv_release_label"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintStart_toEndOf="@+id/tv_lblRelease"
+                app:layout_constraintTop_toBottomOf="@+id/tv_lblGenre" />
 
             <TextView
-                android:id="@+id/tv_release_label"
+                android:id="@+id/tv_lblRelease"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -71,10 +70,10 @@
                 android:textColor="@color/titleTextColor"
                 android:textSize="14sp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView3" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_lblGenre" />
 
             <TextView
-                android:id="@+id/tv_overview_label"
+                android:id="@+id/tv_lblOverview"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -85,7 +84,7 @@
                 android:textSize="18sp"
                 android:layout_marginBottom="16dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_release_label" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_lblRelease" />
 
             <TextView
                 android:id="@+id/tv_overview"
@@ -97,11 +96,10 @@
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
                 android:paddingBottom="32dp"
-                android:text="TextView"
                 android:textColor="@color/titleTextColor"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_overview_label" />
+                app:layout_constraintTop_toBottomOf="@+id/tv_lblOverview" />
 
             <TextView
                 android:id="@+id/tv_title"
@@ -112,7 +110,6 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="32dp"
                 android:layout_marginRight="32dp"
-                android:text="TextView"
                 android:textColor="@color/titleTextColor"
                 android:textSize="24sp"
                 android:textStyle="bold"
@@ -121,7 +118,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/img_poster" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/tv_lblGenre"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="32dp"
@@ -129,7 +126,7 @@
                 android:layout_marginTop="16dp"
                 android:ellipsize="end"
                 android:singleLine="true"
-                android:text="Genre : "
+                android:text="@string/genre"
                 android:textColor="@color/titleTextColor"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
@@ -141,12 +138,13 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginLeft="8dp"
                 android:layout_marginTop="16dp"
-                android:text="TextView"
-                android:textColor="@color/titleTextColor"
+                android:layout_marginEnd="32dp"
+                android:layout_marginRight="32dp"
                 android:ellipsize="marquee"
                 android:singleLine="true"
+                android:textColor="@color/titleTextColor"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/textView3"
+                app:layout_constraintStart_toEndOf="@+id/tv_lblGenre"
                 app:layout_constraintTop_toBottomOf="@+id/tv_title" />
 
             <ProgressBar

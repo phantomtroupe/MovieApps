@@ -9,11 +9,13 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapps.BuildConfig
 import com.example.movieapps.R
+import com.example.movieapps.data.entity.FavoriteMovieEntity
+import com.example.movieapps.data.entity.FavoriteTvShowEntity
 import com.example.movieapps.data.response.tv_show.Result
 import com.example.movieapps.ui.tv_show.DetailTvShowActivity
 import kotlinx.android.synthetic.main.tvshow_item_layout.view.*
 
-class FavTvShowAdapter(private val context:Context, private val result:Array<Result>) : RecyclerView.Adapter<FavTvShowAdapter.FavTvShowViewHolder>() {
+class FavTvShowAdapter(private val context:Context, private val result:Array<FavoriteTvShowEntity>) : RecyclerView.Adapter<FavTvShowAdapter.FavTvShowViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavTvShowViewHolder {
         return FavTvShowViewHolder(
             LayoutInflater.from(

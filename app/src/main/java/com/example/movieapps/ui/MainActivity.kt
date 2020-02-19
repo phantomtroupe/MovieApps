@@ -1,5 +1,6 @@
 package com.example.movieapps.ui
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -10,6 +11,7 @@ import androidx.navigation.ui.setupWithNavController
 import com.example.movieapps.R
 import com.example.movieapps.ui.favorite.FavoriteFragment
 import com.example.movieapps.ui.movie.MovieFragment
+import com.example.movieapps.ui.setting.SettingActivity
 import com.example.movieapps.ui.tv_show.TvShowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
@@ -72,5 +74,14 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.toolbar_menu,menu)
         return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if(item.itemId == R.id.setting){
+            val intent = Intent(this,SettingActivity::class.java)
+            startActivity(intent)
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

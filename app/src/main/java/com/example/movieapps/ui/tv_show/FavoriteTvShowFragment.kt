@@ -12,6 +12,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.movieapps.R
+import com.example.movieapps.data.entity.FavoriteTvShowEntity
 import com.example.movieapps.data.response.tv_show.Result
 import com.example.movieapps.di.Injection
 import com.example.movieapps.ui.adapter.FavTvShowAdapter
@@ -47,7 +48,7 @@ class FavoriteTvShowFragment : Fragment() {
     }
 
     fun initObserver(){
-        favoriteTvShowViewModel.getFavTvShow().observe(this, Observer<Array<Result>>{
+        favoriteTvShowViewModel.getFavTvShow().observe(this, Observer<Array<FavoriteTvShowEntity>>{
                 response ->
             Log.d("Favorite TvShow", response.toString())
             adapter = FavTvShowAdapter(this.context!!,response)
@@ -57,9 +58,11 @@ class FavoriteTvShowFragment : Fragment() {
     }
 
     companion object{
-        lateinit var favTvShowViewModel: FavoriteTvShowViewModel
+        var favTvShowViewModel: FavoriteTvShowViewModel? = null
         fun updateData(){
-            favTvShowViewModel.setFavTvShow()
+            if(favTvShowViewModel != null){
+                favTvShowViewModel?.setFavTvShow()
+            }
         }
     }
 }

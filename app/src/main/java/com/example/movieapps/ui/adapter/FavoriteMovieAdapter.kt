@@ -9,11 +9,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.movieapps.BuildConfig
 import com.example.movieapps.R
+import com.example.movieapps.data.entity.FavoriteMovieEntity
 import com.example.movieapps.data.response.movie.Result
 import com.example.movieapps.ui.movie.DetailMovieActivity
 import kotlinx.android.synthetic.main.movie_item_layout.view.*
 
-class FavMovieAdapter(private val context:Context, private val result:Array<Result>) : RecyclerView.Adapter<FavMovieAdapter.FavMovieViewHolder>() {
+class FavMovieAdapter(private val context:Context, private val result:Array<FavoriteMovieEntity>) : RecyclerView.Adapter<FavMovieAdapter.FavMovieViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FavMovieViewHolder {
         return FavMovieViewHolder(
             LayoutInflater.from(

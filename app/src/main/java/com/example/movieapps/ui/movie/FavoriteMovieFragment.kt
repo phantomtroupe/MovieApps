@@ -13,6 +13,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 
 import com.example.movieapps.R
+import com.example.movieapps.data.entity.FavoriteMovieEntity
 import com.example.movieapps.data.response.movie.Result
 import com.example.movieapps.di.Injection
 import com.example.movieapps.ui.adapter.FavMovieAdapter
@@ -48,7 +49,7 @@ class FavoriteMovieFragment : Fragment() {
     }
 
     fun initObserver(){
-        favoriteMovieViewModel.getFavMovie().observe(this, Observer<Array<Result>>{
+        favoriteMovieViewModel.getFavMovie().observe(this, Observer<Array<FavoriteMovieEntity>>{
             response ->
             Log.d("Favorite Movie", response.toString())
             adapter = FavMovieAdapter(this.context!!,response)
@@ -58,9 +59,11 @@ class FavoriteMovieFragment : Fragment() {
     }
 
     companion object{
-        lateinit var favMovieViewModel: FavoriteMovieViewModel
+        var favMovieViewModel: FavoriteMovieViewModel? = null
         fun updateData(){
-            favMovieViewModel.setFavMovie()
+            if(favMovieViewModel != null){
+                favMovieViewModel?.setFavMovie()
+            }
         }
     }
 }

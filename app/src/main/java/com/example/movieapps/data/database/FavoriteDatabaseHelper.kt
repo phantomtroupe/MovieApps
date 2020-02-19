@@ -3,7 +3,7 @@ package com.example.movieapps.data.database
 import android.content.Context
 import androidx.room.Room
 
-object DatabaseHelper {
+object FavoriteDatabaseHelper {
     var db: FavoriteDataBase? = null
 
     fun createDb(context: Context): FavoriteDataBase {

@@ -1,43 +1,46 @@
-package com.example.movieapps.data.response.movie
+package com.example.movieapps.data.entity
 
 
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.example.movieapps.data.database.Converter
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "MovieResult")
+@Entity(tableName = "fav_tvshow")
 @TypeConverters(Converter::class)
 @Parcelize
-data class Result(
-    @SerializedName("adult")
-    var adult: Boolean,
+data class FavoriteTvShowEntity(
     @SerializedName("backdrop_path")
     var backdropPath: String,
+    @SerializedName("first_air_date")
+    var firstAirDate: String,
     @SerializedName("genre_ids")
     var genreIds: ArrayList<String>,
     @SerializedName("id")
-    var id: String,
+    var id: Int,
+    @SerializedName("name")
+    @PrimaryKey
+    var name: String,
+    @SerializedName("origin_country")
+    var originCountry: ArrayList<String>,
     @SerializedName("original_language")
     var originalLanguage: String,
-    @SerializedName("original_title")
-    var originalTitle: String,
+    @SerializedName("original_name")
+    var originalName: String,
     @SerializedName("overview")
     var overview: String,
     @SerializedName("popularity")
     var popularity: Double,
     @SerializedName("poster_path")
     var posterPath: String,
-    @SerializedName("release_date")
-    var releaseDate: String,
-    @SerializedName("title")
-    @PrimaryKey
-    var title: String,
-    @SerializedName("video")
-    var video: Boolean,
     @SerializedName("vote_average")
-    var voteAverage: String,
+    var voteAverage: Double,
     @SerializedName("vote_count")
-    var voteCount: String
-) : Parcelable
+    var voteCount: Int
+) : Parcelable{
+    constructor() : this("","",ArrayList<String>(),0,"",ArrayList<String>(),"","","",0.0,"",0.0,0)
+}

@@ -1,16 +1,19 @@
-package com.example.movieapps.data.response.movie
+package com.example.movieapps.data.entity
 
 
 import android.os.Parcelable
-import androidx.room.*
+import androidx.room.Entity
+import androidx.room.Ignore
+import androidx.room.PrimaryKey
+import androidx.room.TypeConverters
 import com.example.movieapps.data.database.Converter
 import com.google.gson.annotations.SerializedName
 import kotlinx.android.parcel.Parcelize
 
-@Entity(tableName = "MovieResult")
+@Entity(tableName = "fav_movie")
 @TypeConverters(Converter::class)
 @Parcelize
-data class Result(
+data class FavoriteMovieEntity(
     @SerializedName("adult")
     var adult: Boolean,
     @SerializedName("backdrop_path")
@@ -40,4 +43,6 @@ data class Result(
     var voteAverage: String,
     @SerializedName("vote_count")
     var voteCount: String
-) : Parcelable
+) : Parcelable{
+    constructor() : this(false,"",ArrayList<String>(),"","","","",0.0,"","","",false,"","")
+}
