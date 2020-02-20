@@ -9,6 +9,6 @@ import com.example.movieapps.data.response.movie.MovieResponse
 class MovieViewModel(private val repository: MovieAppRepository) :ViewModel() {
     var networkListener:NetworkListener? = null
 
-    fun getMovies():LiveData<MovieResponse> = repository._movies
-    fun setMovies() = repository.getMovies(networkListener)
+    fun getMovies():LiveData<ArrayList<MovieResponse>> = repository._movies
+    fun setMovies(page:Int=1) = repository.getMovies(networkListener,page)
 }

@@ -9,7 +9,10 @@ import com.example.movieapps.data.response.tv_show.TvShowResponse
 @Dao
 interface TvShowDao {
     @Query("SELECT * FROM tvshow")
-    fun getTvShows():TvShowResponse
+    fun getTvShows():List<TvShowResponse>
+
+    @Query("SELECT * FROM tvshow WHERE page = :page")
+    fun checkIfTvShowExist(page:Int):List<TvShowResponse>
 
     @Insert
     fun addResponse(tvShowResponse: TvShowResponse)

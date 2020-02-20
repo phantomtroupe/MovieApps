@@ -9,6 +9,6 @@ import com.example.movieapps.data.response.tv_show.TvShowResponse
 class TvShowViewModel(private val repository: MovieAppRepository) : ViewModel() {
     var networkListener:NetworkListener? = null
 
-    fun getTvShow():LiveData<TvShowResponse> = repository._tvShows
-    fun setTvShow() = repository.getTvShows(networkListener)
+    fun getTvShow():LiveData<ArrayList<TvShowResponse>> = repository._tvShows
+    fun setTvShow(page:Int=1) = repository.getTvShows(networkListener,page)
 }

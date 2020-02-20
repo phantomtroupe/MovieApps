@@ -3,8 +3,10 @@ package com.example.movieapps.ui
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
 import androidx.navigation.ui.setupWithNavController
@@ -17,6 +19,10 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+    val movieFragment = MovieFragment()
+    val tvShowFragment = TvShowFragment()
+    val favoriteFragment = FavoriteFragment()
+
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.movie_fragment){
             supportActionBar?.elevation = 8f
@@ -43,19 +49,9 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
     }
 
     fun loadFragment(tag:String){
-        val currentFragment = supportFragmentManager.findFragmentById(R.id.container)
-        var nextFragment = supportFragmentManager.findFragmentByTag(tag)
-
-        if(currentFragment  != null){
-            supportFragmentManager.beginTransaction().detach(currentFragment).commit()
-        }
-
-        if(nextFragment != null){
-            supportFragmentManager.beginTransaction().attach(nextFragment).commit()
-        }else{
-            nextFragment = createFragment(tag)
-            supportFragmentManager.beginTransaction().add(R.id.container,nextFragment,tag).commit()
-        }
+            val nextFragment = createFragment(tag)
+            supportFragmentManager.beginTransaction().replace(R.id.container,nextFragment,tag).commit()
+            Log.e("Fragment Name",nextFragment.tag)
     }
 
     fun createFragment(tag:String):Fragment{
@@ -67,6 +63,8 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         }else if(tag == "favorite"){
             result = FavoriteFragment()
         }
+
+        result.retainInstance = true
 
         return result
     }

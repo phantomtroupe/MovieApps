@@ -7,6 +7,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.FragmentStatePagerAdapter
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.example.movieapps.R
 import com.example.movieapps.ui.adapter.PageAdapter
@@ -17,7 +18,7 @@ import kotlinx.android.synthetic.main.fragment_favorite.*
  * A simple [Fragment] subclass.
  */
 class FavoriteFragment : Fragment() {
-    lateinit var pageAdapter: FragmentStateAdapter
+    lateinit var pageAdapter: FragmentStatePagerAdapter
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -29,14 +30,9 @@ class FavoriteFragment : Fragment() {
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         Log.d("Favorit Fragment","Activity Created")
-        view_pager.adapter = PageAdapter(this.activity!!)
-        TabLayoutMediator(tabLayout,view_pager){
-            tab, position ->
-            if(position == 0)
-                tab.text = "Favorite Movie"
-            else if(position == 1){
-                tab.text = "Favorite TV Show"
-            }
-        }.attach()
+
+        pageAdapter = PageAdapter(childFragmentManager)
+        view_pager.adapter = pageAdapter
+        tabLayout.setupWithViewPager(view_pager)
     }
 }

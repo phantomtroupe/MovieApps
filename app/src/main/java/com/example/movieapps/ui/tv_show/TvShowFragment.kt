@@ -11,9 +11,13 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.movieapps.Network.NetworkListener
 import com.example.movieapps.R
+import com.example.movieapps.data.database.FavoriteDatabaseHelper
+import com.example.movieapps.data.response.tv_show.Result
+import com.example.movieapps.data.response.tv_show.TvShowResponse
 import com.example.movieapps.di.Injection
 import com.example.movieapps.ui.adapter.TvShowAdapter
 import com.example.movieapps.ui.movie.MovieViewModel
@@ -22,6 +26,10 @@ import kotlinx.android.synthetic.main.fragment_movie.refresh_layout
 import kotlinx.android.synthetic.main.fragment_tv_show.*
 
 class TvShowFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshListener {
+
+    var results = ArrayList<Result>()
+    var isLoading = false
+
     override fun onRefresh() {
         tvShowViewModel.setTvShow()
     }
@@ -36,7 +44,7 @@ class TvShowFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefresh
         refresh_layout.isRefreshing=false
     }
     lateinit var tvShowViewModel: TvShowViewModel
-    lateinit var tvShowAdapter:TvShowAdapter
+    var tvShowAdapter:TvShowAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -50,26 +58,55 @@ class TvShowFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefresh
         super.onActivityCreated(savedInstanceState)
         tvShowViewModel = ViewModelProvider(this, Injection.provideViewModelFractory(this.context!!))
             .get(TvShowViewModel::class.java)
+
         tvShowViewModel.networkListener = this
+
+        rv_tvshow.addOnScrollListener(object : RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(!isLoading){
+                    if(!recyclerView.canScrollVertically((1))){
+                        val listTvShow = FavoriteDatabaseHelper.createDb(context!!).tvShowDao().getTvShows()
+                        val page = listTvShow[listTvShow.size - 1].page + 1
+                        Log.e("MovieFragment",page.toString())
+                        updateTvShow(page)
+                    }
+                }
+            }
+        })
+
         initObserver()
-        refresh_layout.setOnRefreshListener(this)
-        refresh_layout.isRefreshing=true
         updateTvShow()
-        Log.e("ActivityCreated","")
     }
 
-    fun updateTvShow(){
-        tvShowViewModel.setTvShow()
+    fun updateTvShow(page:Int = 1){
+        refresh_layout.setOnRefreshListener(this)
+        refresh_layout.isRefreshing=true
+        tvShowViewModel.setTvShow(page)
     }
 
     fun initObserver(){
-        tvShowViewModel.getTvShow().observe(this, Observer {
-            response->
-            Log.d("Tv Show Response",response.results.toString())
-            tvShowAdapter = TvShowAdapter(context!!,response)
-            rv_tvshow.layoutManager = LinearLayoutManager(context!!)
-            rv_tvshow.adapter = tvShowAdapter
+        tvShowViewModel.getTvShow().observe(this, Observer<ArrayList<TvShowResponse>>{
+                response ->
+            results.clear()
+            for(i in 0 until response.size){
+                for(j in 0 until response[i].results.size){
+                    results.add(response[i].results[j])
+                }
+            }
+
+            if(tvShowAdapter != null){
+                tvShowAdapter?.setItems(results)
+                tvShowAdapter?.notifyDataSetChanged()
+                Log.e("TvShowFragment","NotifyDataSetChanged")
+            }else{
+                tvShowAdapter = TvShowAdapter(this.context!!, results)
+                rv_tvshow.layoutManager = LinearLayoutManager(this.context!!)
+                rv_tvshow.adapter = tvShowAdapter
+            }
             refresh_layout.isRefreshing = false
+            isLoading = false
         })
     }
 }

@@ -11,15 +11,24 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.example.movieapps.Network.NetworkListener
 import com.example.movieapps.R
+import com.example.movieapps.data.dao.MovieDao
+import com.example.movieapps.data.database.FavoriteDataBase
+import com.example.movieapps.data.database.FavoriteDatabaseHelper
 import com.example.movieapps.data.response.movie.MovieResponse
+import com.example.movieapps.data.response.movie.Result
 import com.example.movieapps.di.Injection
 import com.example.movieapps.ui.adapter.MovieAdapter
 import kotlinx.android.synthetic.main.fragment_movie.*
 
 class MovieFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshListener {
+
+    var results = ArrayList<Result>()
+    var isLoading = false
+
     override fun onRefresh() {
         movieViewModel.setMovies()
     }
@@ -34,7 +43,7 @@ class MovieFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshL
         refresh_layout.isRefreshing=false
     }
     lateinit var movieViewModel: MovieViewModel
-    lateinit var movieAdapter: MovieAdapter
+    var movieAdapter: MovieAdapter? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,10 +63,27 @@ class MovieFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshL
 
         movieViewModel = ViewModelProvider(this,Injection.provideViewModelFractory(this.context!!))
             .get(MovieViewModel::class.java)
+
         movieViewModel.networkListener = this
+
+
+        rv_movies.addOnScrollListener(object:RecyclerView.OnScrollListener(){
+            override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
+                super.onScrollStateChanged(recyclerView, newState)
+
+                if(!isLoading){
+                    if(!recyclerView.canScrollVertically((1))){
+                        val listMovie = FavoriteDatabaseHelper.createDb(context!!).movieDao().getMovies()
+                        val page = listMovie[listMovie.size - 1].page + 1
+                        Log.e("MovieFragment",page.toString())
+                        updateMovie(page)
+                    }
+                }
+            }
+        })
+
+
         initObserver()
-        refresh_layout.setOnRefreshListener(this)
-        refresh_layout.isRefreshing=true
         updateMovie()
     }
 
@@ -66,18 +92,33 @@ class MovieFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshL
         Log.e("Fragment","Destroyed")
     }
 
-    fun updateMovie(){
-        movieViewModel.setMovies()
+    fun updateMovie(page:Int = 1){
+        refresh_layout.setOnRefreshListener(this)
+        refresh_layout.isRefreshing=true
+        movieViewModel.setMovies(page)
     }
 
     fun initObserver(){
-        movieViewModel.getMovies().observe(this, Observer<MovieResponse>{
+        movieViewModel.getMovies().observe(this, Observer<ArrayList<MovieResponse>>{
             response ->
-            Log.d("Movie Response",response.results.toString())
-            movieAdapter = MovieAdapter(this.context!!, response)
-            rv_movies.layoutManager = LinearLayoutManager(this.context!!)
-            rv_movies.adapter = movieAdapter
+            results.clear()
+            for(i in 0 until response.size){
+                for(j in 0 until response[i].results.size){
+                    results.add(response[i].results[j])
+                }
+            }
+
+            if(movieAdapter != null){
+                movieAdapter?.setItems(results)
+                movieAdapter?.notifyDataSetChanged()
+                Log.e("MovieFragment","NotifyDataSetChanged")
+            }else{
+                movieAdapter = MovieAdapter(this.context!!, results)
+                rv_movies.layoutManager = LinearLayoutManager(this.context!!)
+                rv_movies.adapter = movieAdapter
+            }
             refresh_layout.isRefreshing = false
+            isLoading = false
         })
     }
 
