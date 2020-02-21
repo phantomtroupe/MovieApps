@@ -68,9 +68,11 @@ class TvShowFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefresh
                 if(!isLoading){
                     if(!recyclerView.canScrollVertically((1))){
                         val listTvShow = FavoriteDatabaseHelper.createDb(context!!).tvShowDao().getTvShows()
-                        val page = listTvShow[listTvShow.size - 1].page + 1
-                        Log.e("MovieFragment",page.toString())
-                        updateTvShow(page)
+                        if(listTvShow.size > 0){
+                            val page = listTvShow[listTvShow.size - 1].page + 1
+                            Log.e("MovieFragment",page.toString())
+                            updateTvShow(page)
+                        }
                     }
                 }
             }

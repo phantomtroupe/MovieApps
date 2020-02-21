@@ -1,27 +1,34 @@
 package com.example.movieapps.ui
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.SystemClock
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.fragment.app.Fragment
-import androidx.navigation.Navigation
-import androidx.navigation.ui.setupWithNavController
 import com.example.movieapps.R
+import com.example.movieapps.data.preference.Preference
 import com.example.movieapps.ui.favorite.FavoriteFragment
 import com.example.movieapps.ui.movie.MovieFragment
 import com.example.movieapps.ui.setting.SettingActivity
 import com.example.movieapps.ui.tv_show.TvShowFragment
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import kotlinx.android.synthetic.main.activity_main.*
+import java.util.*
 
 class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
+    val REQ_CODE = 101
+
     val movieFragment = MovieFragment()
     val tvShowFragment = TvShowFragment()
     val favoriteFragment = FavoriteFragment()
+
+    private var alarmManager: AlarmManager? = null
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         if(item.itemId == R.id.movie_fragment){
@@ -43,6 +50,28 @@ class MainActivity : AppCompatActivity(), BottomNavigationView.OnNavigationItemS
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
+
+        if(alarmManager == null){
+            alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
+
+            val intent = Intent(this,DBReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(this,REQ_CODE,intent,0)
+
+            val calendar = Calendar.getInstance().apply {
+                timeInMillis = System.currentTimeMillis()
+                set(Calendar.HOUR_OF_DAY,8)
+            }
+
+            alarmManager?.setRepeating(
+                AlarmManager.ELAPSED_REALTIME,SystemClock.elapsedRealtime(),60 * 5 * 60 * 1000,pendingIntent
+            )
+
+            Log.e("Alarm Manager","Created")
+        }
+
+        AlarmManager.INTERVAL_FIFTEEN_MINUTES
+
+        Preference.addDefaultSetting(this)
 
         loadFragment("movie")
         bottom_nav.setOnNavigationItemSelectedListener(this)

@@ -21,6 +21,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".ui.DBReceiver" android:exported="false" android:enabled="true"/>
     </application>
 
 </manifest>

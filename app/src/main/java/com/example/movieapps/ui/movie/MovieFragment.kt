@@ -74,9 +74,11 @@ class MovieFragment : Fragment(), NetworkListener, SwipeRefreshLayout.OnRefreshL
                 if(!isLoading){
                     if(!recyclerView.canScrollVertically((1))){
                         val listMovie = FavoriteDatabaseHelper.createDb(context!!).movieDao().getMovies()
-                        val page = listMovie[listMovie.size - 1].page + 1
-                        Log.e("MovieFragment",page.toString())
-                        updateMovie(page)
+                        if(listMovie.size > 0){
+                            val page = listMovie[listMovie.size - 1].page + 1
+                            Log.e("MovieFragment",page.toString())
+                            updateMovie(page)
+                        }
                     }
                 }
             }
